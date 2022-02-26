@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Signin</title>
+    <meta name="google-signin-client_id" content="559682030156-i1a4flamgv78o107gv3ufrf2t7okkjfn.apps.googleusercontent.com">
+
+</head>
+<body>
+    <h1>Cristian A. Chipana Huaman</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, tempora?</p>
+    <hr>
+
+    <h2>GOOGLE SIGNIN</h2>
+    <hr>
+
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+    <a href="#" onclick="signOut();">Sign out</a>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script> 
+
+    <script>
+
+        var url = ( window.location.hostname.includes('localhost') )
+            ? 'http://localhost:4000/api/auth/google'
+            : 'https://node-restserver-cascaron.herokuapp.com/api/auth/google'
+
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+            var id_token = googleUser.getAuthResponse().id_token;
+            const data = { id_token }
+
+            fetch ( url, {
+                method: 'POST',
+                headers: { 'Content-Type':'application/json' },
+                body: JSON.stringify( data )
+            })
+            .then( res => res.json() )
+            .then( sata => console.log("Nustro server", data, sata))
+            .catch( console.log  );
+        }
+
+
+
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+            console.log('User signed out.');
+            });
+        }
+
+    </script>
+
+</body>
+</html>
