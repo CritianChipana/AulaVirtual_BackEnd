@@ -20,6 +20,10 @@ const UsuarioSchema = Schema({
         type: String,
         required: [true, "El nombre es obligatorio"],
     },
+    apellido: {
+        type: String,
+        required: [true, "El apellido es obligatorio"],
+    },
     correo: {
         type: String,
         required: [true, "El nombre es obligatorio"],
@@ -33,6 +37,14 @@ const UsuarioSchema = Schema({
     },
     img: {
         type : String
+    },
+    grado: {
+        type : Number,
+        required: [true, "El grado es obligatorio"],
+    },
+    seccion: {
+        type : String,
+        required: [true, "La seccion es obligatorio"],
     },
     rol: {
         type: String,

@@ -21,7 +21,7 @@ const { validarJWT,
 const router = Router();
 
 
-router.get('/', usuariosGet);
+        router.get('/',[  validarJWT] ,usuariosGet);
 
 router.put('/:id',
 [
@@ -40,6 +40,9 @@ router.post('/',
         check('correo', 'correo no es valido' ).isEmail(),
         check('correo' ).custom(emailExiste),
         check('nombre', 'Nombre es necesario' ).not().isEmpty(),
+        check('grado', 'grado es necesario' ).not().isEmpty(),
+        check('grado', 'grado debe ser un numero' ).isNumeric(),
+        check('seccion', 'seccion es necesario' ).not().isEmpty(),
         check('password', 'La contraseña debe de tener 6 letras como minimo').isLength({ min:6 }),
         check('img', 'La imagen es requerida').not().isEmpty(),
         // check('rol', 'No es un rol valido' ).isIn( ["ADMI_ROLE","USER_ROLE"] ),

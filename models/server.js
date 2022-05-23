@@ -38,7 +38,7 @@ class Server{
 
     middlewares(){
 
-        //cors
+        //cors  
         this.app.use( cors() )
 
         //Lectura y parseo del body

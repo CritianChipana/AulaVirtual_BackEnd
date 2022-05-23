@@ -54,10 +54,12 @@ const usuariosPut = async (req = request, res =response ) => {
 }
 
 
-const usuariosPost = async (req, res =response) => {
+const usuariosPost = async (req, res = response) => {
 
-    const { nombre, correo, password, rol , img} = req.body;
-    const usuario = new Usuario( { nombre, correo, password, rol, img } );
+    try {
+
+    const { nombre, apellido, correo, password, rol , img, grado, seccion} = req.body;
+    const usuario = new Usuario( { nombre, apellido, correo, password, rol, img, grado, seccion } );
 
     // Emcriptar la contraseña
     const salt = bcryptjs.genSaltSync();
@@ -66,19 +68,28 @@ const usuariosPost = async (req, res =response) => {
     //Guardar en BD
     await usuario.save();
 
-            // Generar el JWT
-            const token = await generarJWT( usuario.uid );
+    // Generar el JWT
+    const token = await generarJWT( usuario.uid );
 
     res.json({
-        'ok':true,
+        success : true,
         token,
         usuario
     });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success:false,
+            msg:'Hable con el Admi'
+        })
+        
+    }
 }
 
 const usuariosPath   =(req, res) => {
     res.json({
-        'ok':true,
+        success:true,
         msg: 'PATCH API'
     })
 }
@@ -98,7 +109,7 @@ const usuariosDelete = async (req, res) => {
 
 
     res.json({
-        'ok':true,
+        success:true,
         msg: 'DELETE API',
         id,
         usuario,

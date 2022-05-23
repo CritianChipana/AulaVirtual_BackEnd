@@ -19,16 +19,22 @@ const login = async ( req = request, res = response) =>{
 
         if(  !usuario ){
             return   res.status(400).json({
+                        status:false,
                         msg:'Usuario / Password incorrectos - correo',
-                        correo
+                        errors:{
+                            correo : 'Correo / Password incorrectos'
+                        }
                     })  
         }
 
         // Si el usuario esta Activo
         if(  !usuario.estado ){
             return   res.status(400).json({
+                        status:false,
                         msg:'Usuario / Password incorrectos - estado - false',
-                        correo
+                        errors:{
+                            correo : 'Correo / Password incorrectos'
+                        }
                     })
         }
 
@@ -37,8 +43,11 @@ const login = async ( req = request, res = response) =>{
         const validPassword = bcryptjs.compareSync( password, usuario.password )
         if( !validPassword ){
             return   res.status(400).json({
+                        status:false,
                         msg:'Usuario / Password incorrectos - password',
-                        correo
+                        errors:{
+                            correo : 'Correo / Password incorrectos'
+                        }
             })
         }
 
@@ -47,7 +56,7 @@ const login = async ( req = request, res = response) =>{
         const token = await generarJWT( usuario.id );
 
         return res.json({
-            msg:'Login',
+            success:true,
             correo,
             token,
             usuario
@@ -58,6 +67,7 @@ const login = async ( req = request, res = response) =>{
     } catch (error) {
         console.log(error);
         return res.status(500).json({
+            success:false,
             msg:'Hable con el Admi'
         })
     }

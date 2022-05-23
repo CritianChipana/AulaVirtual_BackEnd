@@ -10,7 +10,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const router =Router();
 
 // OBTENER TODAS LAS CATEGORIAS
-router.get('/',obtnerCategorias)
+router.get('api/categoria/',obtnerCategorias)
 
 router.get('/:id',
 [
